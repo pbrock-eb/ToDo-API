@@ -3,12 +3,12 @@
 API for saving and retreiving ToDo items for sample app.
 
 
-##Prerequisites
+## Prerequisites
 
 Currently requires a running Mongo Database at `localhost:27017`
 
 
-###Setup
+### Setup
 
 Run `npm install` to install all the dependencies.
 
