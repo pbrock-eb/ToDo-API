@@ -1,4 +1,5 @@
 var ToDo = require('../models/todo.model')
+var User = require('../models/user.model')
 
 _this = this
 
@@ -25,9 +26,9 @@ exports.createTodo = async function(todo){
         description: todo.description,
         dateCreated: new Date(),
         dateDue: todo.dateDue,
-        status: todo.status
+        status: todo.status,
+        user: todo.user
     })
-
     try{
         var savedTodo = await newTodo.save()
         return savedTodo;
@@ -58,6 +59,7 @@ exports.updateTodo = async function(todo){
     oldTodo.description = todo.description
     oldTodo.status = todo.status
     oldTodo.dueDate = todo.dueDate
+    oldTodo.user = todo.user
 
     console.log(oldTodo)
 
