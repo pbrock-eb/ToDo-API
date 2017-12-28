@@ -49,6 +49,7 @@ exports.createTodo = async function(todo){
         dateCreated: new Date(),
         dateDue: todo.dateDue,
         status: todo.status,
+        user: todo.user,
         id: todoID
     }
     todos.push(newTodo);

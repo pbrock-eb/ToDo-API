@@ -33,6 +33,7 @@ exports.createTodo = async function(req, res, next){
         status: req.body.status,
         dateDue: req.body.dateDue,
         dateCreated: req.body.dateCreated,
+        user: req.body.user,
         id: ''
     }
 
@@ -59,7 +60,8 @@ exports.updateTodo = async function(req, res, next){
         title: req.body.title ? req.body.title : null,
         description: req.body.description ? req.body.description : null,
         status: req.body.status ? req.body.status : null,
-        dateDue: req.body.dateDue ? req.body.dateDue : null
+        dateDue: req.body.dateDue ? req.body.dateDue : null,
+        user: req.body.user ? req.body.user : null,
     }
 
     try{
