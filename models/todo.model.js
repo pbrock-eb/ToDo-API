@@ -1,7 +1,3 @@
-var mongoose = require('mongoose')
-var mongoosePaginate = require('mongoose-paginate')
-var User = mongoose.model('User')
-
 var ToDoSchema = new mongoose.Schema({
     title: String,
     description: String,

@@ -32,8 +32,7 @@ exports.createTodo = async function(req, res, next){
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        dateDue: req.body.dateDue,
-        user: req.body.user._id
+        dateDue: req.body.dateDue
     }
 
     try{

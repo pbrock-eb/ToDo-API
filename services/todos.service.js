@@ -1,51 +1,53 @@
-var ToDo = require('../models/todo.model')
-var User = require('../models/user.model')
+var localStorage = require('localStorage')
+  , JsonStorage = require('json-storage').JsonStorage
+  , todoStorage = JsonStorage.create(localStorage, 'todos', { stringify: true })
+  , userStorage = JsonStorage.create(localStorage, 'users', { stringify: true })
+;
 
 _this = this
 
-exports.getTodos = async function(query, page, limit){
 
-    // Options setup for the mongoose paginate
-    var options = {
-        page,
-        limit
-    }
-        
+
+exports.findTodoIndexByTitle = function(todos, todoTitle){
+    var elementPos = todos.map(function(x) {return x.id; }).indexOf(idYourAreLookingFor);
+    return elementPos;
+}
+
+exports.getTodos = function(){
     try {
-        var todos = await ToDo.paginate(query, options)
+        var todos = todoStorage.get('todos');
         return todos;
     } catch (e) {
         throw Error('Error while Paginating Todos')
     }
 }
 
-exports.createTodo = async function(todo){
-    console.log('got to api');
-    console.log(todo)
-    var newTodo = new ToDo({
+exports.createTodo = function(todo){
+    var newTodo = {
         title: todo.title,
         description: todo.description,
         dateCreated: new Date(),
         dateDue: todo.dateDue,
         status: todo.status,
         user: todo.user
-    })
+    }
+    var todos = this.getTodos();
+    todos.push(newTodo);
     try{
-        console.log('try')
-        var savedTodo = await newTodo.save()
-        return savedTodo;
+        var savedTodos = todoStorage.set('todos', todos);
+        return savedTodos;
     }catch(e){  
         console.log(e)
         throw Error("Error while Creating Todo")
     }
 }
 
-exports.updateTodo = async function(todo){
-    var id = todo.id
-
+exports.updateTodo = function(todo){
+    var todos = this.getTodos();
     try{
-        //Find the old Todo Object by the Id
-        var oldTodo = await ToDo.findById(id);
+        //Find the old Todo Object by the Title
+        var oldTodoIndex = this.findTodoIndexByTitle(todos, todo.title);
+        var oldTodo = todos[oldTodoIndex];
     }catch(e){
         throw Error("Error occured while Finding the Todo")
     }
@@ -54,9 +56,7 @@ exports.updateTodo = async function(todo){
     if(!oldTodo){
         return false;
     }
-
-    console.log(oldTodo)
-
+    
     //Edit the Todo Object
     oldTodo.title = todo.title
     oldTodo.description = todo.description
@@ -67,21 +67,23 @@ exports.updateTodo = async function(todo){
     console.log(oldTodo)
 
     try{
-        var savedTodo = await oldTodo.save()
-        return savedTodo;
+        // remove old item and add edited item
+        todos
+            .splice(oldTodoIndex, 1)
+            .push(oldTodo)
+        ;
+        return todos;
     }catch(e){
         throw Error("And Error occured while updating the Todo");
     }
 }
 
-exports.deleteTodo = async function(id){
-    
+exports.deleteTodo = function(todo){
+    var todos = this.getTodos();
+    var todoIndex = this.findTodoIndexByTitle(todo.title);
     try{
-        var deleted = await ToDo.remove({_id: id})
-        if(deleted.result.n === 0){
-            throw Error("Todo Could not be deleted")
-        }
-        return deleted
+        todos.splice(todoIndex, 1);
+        return todos;
     }catch(e){
         throw Error("Error Occured while Deleting the Todo")
     }
