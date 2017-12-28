@@ -15,14 +15,20 @@ exports.findTodoIndexByTitle = function(todos, todoTitle){
 
 exports.getTodos = function(){
     try {
-        var todos = todoStorage.get('todos');
+        var todos = todoStorage.get('todoList');
+        if(todos === null){
+            todos = new Array();
+        }
+        console.log('---- getTodos ----')
+        console.log(todos);
+        console.log('---- End getTodos ----')
         return todos;
     } catch (e) {
         throw Error('Error while Paginating Todos')
     }
 }
 
-exports.createTodo = function(todo){
+exports.createTodo = async function(todo){
     var newTodo = {
         title: todo.title,
         description: todo.description,
@@ -33,9 +39,10 @@ exports.createTodo = function(todo){
     }
     var todos = this.getTodos();
     todos.push(newTodo);
+    console.log(todos);
     try{
-        var savedTodos = todoStorage.set('todos', todos);
-        return savedTodos;
+        todoStorage.set('todoList', todos);
+        return todos;
     }catch(e){  
         console.log(e)
         throw Error("Error while Creating Todo")

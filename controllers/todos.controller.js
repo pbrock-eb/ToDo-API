@@ -11,7 +11,7 @@ exports.getTodos = async function(req, res, next){
 
     try{
     
-        var todos = await TodoService.getTodos({}, page, limit)
+        var todos = TodoService.getTodos();
         
         // Return the todos list with the appropriate HTTP Status Code and Message.
         console.log('got to controller');
@@ -27,7 +27,6 @@ exports.getTodos = async function(req, res, next){
 
 exports.createTodo = async function(req, res, next){
     // req.body contains the form submit values.
-    console.log(req.body.user)
     var todo = {
         title: req.body.title,
         description: req.body.description,
@@ -36,7 +35,7 @@ exports.createTodo = async function(req, res, next){
     }
 
     try{
-        
+        // console.log(todo);
         // Calling the Service function with the new object from the Request Body
         var createdTodo = await TodoService.createTodo(todo)
         return res.status(201).json({status: 201, data: createdTodo, message: "Created Todo Succesfully"})
