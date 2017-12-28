@@ -88,11 +88,7 @@ exports.updateTodo = function(todo){
 
     try{
         // remove old item and add edited item
-        console.log('-----')
-        console.log(todos)
         todos.splice(oldTodoIndex, 1, oldTodo);
-        console.log(todos)
-        console.log('-----')
         todoStorage.set('todoList', todos);
         return todos;
     }catch(e){
@@ -100,11 +96,12 @@ exports.updateTodo = function(todo){
     }
 }
 
-exports.deleteTodo = function(todo){
+exports.deleteTodo = function(id){
     var todos = this.getTodos();
-    var todoIndex = this.findTodoIndexByTitle(todo.title);
+    var todoIndex = this.findTodoIndexByID(todos, id);
     try{
         todos.splice(todoIndex, 1);
+        todoStorage.set('todoList', todos);
         return todos;
     }catch(e){
         throw Error("Error Occured while Deleting the Todo")

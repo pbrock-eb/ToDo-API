@@ -51,7 +51,6 @@ exports.createTodo = async function(req, res, next){
 exports.updateTodo = async function(req, res, next){
     console.log(req.body)
     if(!req.body.id){
-        console.log('here')
         return res.status(400).json({status: 400., message: "Id must be present"})
     }
 
@@ -74,7 +73,6 @@ exports.updateTodo = async function(req, res, next){
 exports.removeTodo = async function(req, res, next){
 
     var id = req.params.id;
-
     try{
         var deleted = await TodoService.deleteTodo(id)
         return res.status(204).json({status:204, message: "Todo Deleted Succesfully"})
