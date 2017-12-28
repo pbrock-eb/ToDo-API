@@ -13,36 +13,57 @@ exports.findTodoIndexByTitle = function(todos, todoTitle){
     return elementPos;
 }
 
+exports.createID = function(todos){
+    var idArray = new Array();
+    var todoLength = todos.length;
+    try{
+        for (var i = 0; i < todoLength; i++) {
+            idArray.push(todos[i].id);
+        }
+        var max = idArray.reduce(function(a, b) {
+            return Math.max(a, b);
+        });
+     } catch(e){
+        max = 0;
+    }
+    return (max + 1);
+}
+
 exports.getTodos = function(){
     try {
         var todos = todoStorage.get('todoList');
-        if(todos === null){
-            todos = new Array();
+        var todoArray = [];
+        if(todos !== null){
+            todoArray.push(todos);
         }
         console.log('---- getTodos ----')
         console.log(todos);
         console.log('---- End getTodos ----')
-        return todos;
+        return todoArray;
     } catch (e) {
         throw Error('Error while Paginating Todos')
     }
 }
 
 exports.createTodo = async function(todo){
+    var todos = this.getTodos();
+    console.log('---- createTodos ----')
+    console.log(todos);
+    console.log('---- End createTodos ----')
+    //var newID = this.createID(todo);
     var newTodo = {
         title: todo.title,
         description: todo.description,
         dateCreated: new Date(),
         dateDue: todo.dateDue,
-        status: todo.status,
-        user: todo.user
+        status: todo.status
     }
-    var todos = this.getTodos();
-    todos.push(newTodo);
-    console.log(todos);
+    //todos.push(newTodo);
     try{
-        todoStorage.set('todoList', todos);
-        return todos;
+        todoStorage.set('todoList', newTodo);
+        console.log('here');
+        console.log(todoStorage.get('todoList'))
+        return todoStorage.get('todoList');
     }catch(e){  
         console.log(e)
         throw Error("Error while Creating Todo")

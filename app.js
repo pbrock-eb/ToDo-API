@@ -6,12 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var bluebird = require('bluebird')
 
-var localStorage = require('localStorage')
-  , JsonStorage = require('json-storage').JsonStorage
-  , todoStorage = JsonStorage.create(localStorage, 'todos', { stringify: true })
-  , userStorage = JsonStorage.create(localStorage, 'users', { stringify: true })
-;
-
 var app = express();
 
 var index = require('./routes/index');
