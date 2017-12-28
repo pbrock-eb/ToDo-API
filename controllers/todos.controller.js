@@ -27,11 +27,13 @@ exports.getTodos = async function(req, res, next){
 
 exports.createTodo = async function(req, res, next){
     // req.body contains the form submit values.
+    console.log(req.body.user)
     var todo = {
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        dueDate: req.body.dueDate
+        dateDue: req.body.dateDue,
+        user: req.body.user._id
     }
 
     try{

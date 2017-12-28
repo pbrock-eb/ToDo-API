@@ -21,6 +21,7 @@ exports.getTodos = async function(query, page, limit){
 
 exports.createTodo = async function(todo){
     console.log('got to api');
+    console.log(todo)
     var newTodo = new ToDo({
         title: todo.title,
         description: todo.description,
@@ -30,9 +31,11 @@ exports.createTodo = async function(todo){
         user: todo.user
     })
     try{
+        console.log('try')
         var savedTodo = await newTodo.save()
         return savedTodo;
     }catch(e){  
+        console.log(e)
         throw Error("Error while Creating Todo")
     }
 }

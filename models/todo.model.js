@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 var mongoosePaginate = require('mongoose-paginate')
-const User = require('./user.model')
+var User = mongoose.model('User')
 
 var ToDoSchema = new mongoose.Schema({
     title: String,
@@ -8,7 +8,7 @@ var ToDoSchema = new mongoose.Schema({
     dateCreated: Date,
     dateDue: Date,
     status: String,
-    user: [{type:mongoose.Schema.Types.ObjectId, ref: 'User'}]
+    user: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 })
 
 ToDoSchema.plugin(mongoosePaginate)

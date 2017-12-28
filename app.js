@@ -6,10 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var bluebird = require('bluebird')
 
-var index = require('./routes/index');
-var users = require('./routes/users');
 
-var api = require('./routes/api.route')
 
 var app = express();
 
@@ -17,6 +14,13 @@ var mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/todoapp', { useMongoClient: true})
 .then(()=> { console.log(`Succesfully Connected to the Mongodb Database  at URL : mongodb://127.0.0.1:27017/todoapp`)})
 .catch(()=> { console.log(`Error Connecting to the Mongodb Database at URL : mongodb://127.0.0.1:27017/todoapp`)})
+
+require('./models/user.model');
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+
+var api = require('./routes/api.route')
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
