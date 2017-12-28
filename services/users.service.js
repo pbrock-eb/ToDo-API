@@ -5,6 +5,11 @@ var localStorage = require('localStorage')
 
 _this = this
 
+exports.findUserIndexByID = function(users, userID){
+    var elementPos = users.map(function(x) {return x.id; }).indexOf(userID);
+    return elementPos;
+}
+
 exports.createID = function(users){
     var idArray = new Array();
     var userLength = users.length;
@@ -78,14 +83,13 @@ exports.updateUser = async function(user){
     }
 }
 
-exports.deleteUser = async function(id){
-    
+exports.deleteUser = function(id){
+    var users = this.getUsers();
+    var userIndex = this.findUserIndexByID(users, id);
     try{
-        var deleted = await User.remove({_id: id})
-        if(deleted.result.n === 0){
-            throw Error("User Could not be deleted")
-        }
-        return deleted
+        users.splice(userIndex, 1);
+        userStorage.set('userList', users);
+        return users;
     }catch(e){
         throw Error("Error Occured while Deleting the User")
     }

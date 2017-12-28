@@ -70,7 +70,7 @@ exports.updateUser = async function(req, res, next){
 }
 
 exports.removeUser = async function(req, res, next){
-
+    console.log(req.params.id)
     var id = req.params.id;
 
     try{
