@@ -30,13 +30,14 @@ exports.createUser = async function(req, res, next){
     console.log(req.body)
     var user = {
         fName: req.body.fName,
-        lName: req.body.lName
+        lName: req.body.lName,
+        dateCreated: req.body.dateCreated,
+        id: ''
     }
 
     try{
         
         // Calling the Service function with the new object from the Request Body
-        console.log(user)
         var createdUser = await UserService.createUser(user)
         return res.status(201).json({status: 201, data: createdUser, message: "Created User Succesfully"})
     }catch(e){

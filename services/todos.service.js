@@ -1,7 +1,6 @@
 var localStorage = require('localStorage')
   , JsonStorage = require('json-storage').JsonStorage
   , todoStorage = JsonStorage.create(localStorage, 'todos', { stringify: true })
-  , userStorage = JsonStorage.create(localStorage, 'users', { stringify: true })
 ;
 
 _this = this
@@ -37,14 +36,13 @@ exports.getTodos = function(){
         }
         return todos;
     } catch (e) {
-        throw Error('Error while Paginating Todos')
+        throw Error('Error while getting Todos')
     }
 }
 
 exports.createTodo = async function(todo){
     var todos = this.getTodos();
     todoID = this.createID(todos);
-    //var newID = this.createID(todo);
     var newTodo = {
         title: todo.title,
         description: todo.description,

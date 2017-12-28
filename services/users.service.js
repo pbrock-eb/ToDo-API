@@ -1,34 +1,54 @@
-var User = require('../models/user.model')
+var localStorage = require('localStorage')
+  , JsonStorage = require('json-storage').JsonStorage
+  , userStorage = JsonStorage.create(localStorage, 'users', { stringify: true })
+;
 
 _this = this
 
-exports.getUsers = async function(query, page, limit){
-
-    // Options setup for the mongoose paginate
-    var options = {
-        page,
-        limit
+exports.createID = function(users){
+    var idArray = new Array();
+    var userLength = users.length;
+    try{
+        for (var i = 0; i < userLength; i++) {
+            idArray.push(users[i].id);
+        }
+        var max = idArray.reduce(function(a, b) {
+            return Math.max(a, b);
+        });
+     } catch(e){
+        max = 0;
     }
-        
+    return (max + 1);
+}
+
+exports.getUsers = function(query, page, limit){
     try {
-        var users = await User.paginate(query, options)
+        var users = userStorage.get('userList');
+        if(users  === null){
+            users = [];
+        }
         return users;
     } catch (e) {
-        throw Error('Error while Paginating Users')
+        throw Error('Error while getting Users')
     }
 }
 
 exports.createUser = async function(user){
-    var newUser = new User({
+    var users = this.getUsers();
+    console.log(users)
+    userID = this.createID(users);
+    var newUser = {
         fName: user.fName,
         lName: user.lName,
         dateCreated: new Date(),
-    })
-
+        id: userID
+    }
+    users.push(newUser);
     try{
-        var savedUser = await newUser.save()
-        return savedUser;
+        userStorage.set('userList', users);
+        return userStorage.get('userList');
     }catch(e){  
+        console.log(e)
         throw Error("Error while Creating User")
     }
 }
