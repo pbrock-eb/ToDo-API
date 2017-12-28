@@ -49,15 +49,14 @@ exports.createTodo = async function(req, res, next){
 }
 
 exports.updateTodo = async function(req, res, next){
-
-    if(!req.body._id){
+    console.log(req.body)
+    if(!req.body.id){
+        console.log('here')
         return res.status(400).json({status: 400., message: "Id must be present"})
     }
 
-    var id = req.body._id;
-
     var todo = {
-        id,
+        id: req.body.id,
         title: req.body.title ? req.body.title : null,
         description: req.body.description ? req.body.description : null,
         status: req.body.status ? req.body.status : null,

@@ -8,8 +8,8 @@ _this = this
 
 
 
-exports.findTodoIndexByTitle = function(todos, todoTitle){
-    var elementPos = todos.map(function(x) {return x.id; }).indexOf(idYourAreLookingFor);
+exports.findTodoIndexByID = function(todos, todoID){
+    var elementPos = todos.map(function(x) {return x.id; }).indexOf(todoID);
     return elementPos;
 }
 
@@ -44,9 +44,6 @@ exports.getTodos = function(){
 exports.createTodo = async function(todo){
     var todos = this.getTodos();
     todoID = this.createID(todos);
-    console.log('---- createTodos ----')
-    console.log(todos);
-    console.log('---- End createTodos ----')
     //var newID = this.createID(todo);
     var newTodo = {
         title: todo.title,
@@ -56,14 +53,9 @@ exports.createTodo = async function(todo){
         status: todo.status,
         id: todoID
     }
-    console.log('check here');
-    console.log(todos);
-    console.log('-----');
     todos.push(newTodo);
     try{
         todoStorage.set('todoList', todos);
-        console.log('here');
-        console.log(todoStorage.get('todoList'))
         return todoStorage.get('todoList');
     }catch(e){  
         console.log(e)
@@ -75,7 +67,8 @@ exports.updateTodo = function(todo){
     var todos = this.getTodos();
     try{
         //Find the old Todo Object by the Title
-        var oldTodoIndex = this.findTodoIndexByTitle(todos, todo.title);
+        var oldTodoIndex = this.findTodoIndexByID(todos, todo.id);
+        console.log('index' + oldTodoIndex)
         var oldTodo = todos[oldTodoIndex];
     }catch(e){
         throw Error("Error occured while Finding the Todo")
@@ -93,14 +86,14 @@ exports.updateTodo = function(todo){
     oldTodo.dueDate = todo.dueDate
     oldTodo.user = todo.user
 
-    console.log(oldTodo)
-
     try{
         // remove old item and add edited item
-        todos
-            .splice(oldTodoIndex, 1)
-            .push(oldTodo)
-        ;
+        console.log('-----')
+        console.log(todos)
+        todos.splice(oldTodoIndex, 1, oldTodo);
+        console.log(todos)
+        console.log('-----')
+        todoStorage.set('todoList', todos);
         return todos;
     }catch(e){
         throw Error("And Error occured while updating the Todo");
