@@ -34,7 +34,7 @@ exports.getTodos = function(){
         var todos = todoStorage.get('todoList');
         var todoArray = [];
         if(todos !== null){
-            todoArray.push(todos);
+            todoArray = todos;
         }
         console.log('---- getTodos ----')
         console.log(todos);
@@ -58,9 +58,12 @@ exports.createTodo = async function(todo){
         dateDue: todo.dateDue,
         status: todo.status
     }
-    //todos.push(newTodo);
+    console.log('check here');
+    console.log(todos);
+    console.log('-----');
+    todos.push(newTodo);
     try{
-        todoStorage.set('todoList', newTodo);
+        todoStorage.set('todoList', todos);
         console.log('here');
         console.log(todoStorage.get('todoList'))
         return todoStorage.get('todoList');
