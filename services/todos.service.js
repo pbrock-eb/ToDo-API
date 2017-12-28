@@ -32,14 +32,10 @@ exports.createID = function(todos){
 exports.getTodos = function(){
     try {
         var todos = todoStorage.get('todoList');
-        var todoArray = [];
-        if(todos !== null){
-            todoArray = todos;
+        if(todos  === null){
+            todos = [];
         }
-        console.log('---- getTodos ----')
-        console.log(todos);
-        console.log('---- End getTodos ----')
-        return todoArray;
+        return todos;
     } catch (e) {
         throw Error('Error while Paginating Todos')
     }
@@ -47,6 +43,7 @@ exports.getTodos = function(){
 
 exports.createTodo = async function(todo){
     var todos = this.getTodos();
+    todoID = this.createID(todos);
     console.log('---- createTodos ----')
     console.log(todos);
     console.log('---- End createTodos ----')
@@ -56,7 +53,8 @@ exports.createTodo = async function(todo){
         description: todo.description,
         dateCreated: new Date(),
         dateDue: todo.dateDue,
-        status: todo.status
+        status: todo.status,
+        id: todoID
     }
     console.log('check here');
     console.log(todos);
