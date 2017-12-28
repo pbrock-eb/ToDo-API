@@ -59,7 +59,7 @@ exports.updateTodo = async function(req, res, next){
         title: req.body.title ? req.body.title : null,
         description: req.body.description ? req.body.description : null,
         status: req.body.status ? req.body.status : null,
-        dueDate: req.body.dueDate ? req.body.dueDate : null
+        dateDue: req.body.dateDue ? req.body.dateDue : null
     }
 
     try{

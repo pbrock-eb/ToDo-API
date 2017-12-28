@@ -83,7 +83,7 @@ exports.updateTodo = function(todo){
     oldTodo.title = todo.title
     oldTodo.description = todo.description
     oldTodo.status = todo.status
-    oldTodo.dueDate = todo.dueDate
+    oldTodo.dateDue = todo.dateDue
     oldTodo.user = todo.user
 
     try{
