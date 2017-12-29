@@ -1,11 +1,6 @@
 # ToDo-API
 
-API for saving and retreiving ToDo items for sample app.
-
-
-## Prerequisites
-
-Currently requires a running Mongo Database at `localhost:27017`
+API for saving and retreiving ToDo items for sample app. Saves items into local storage
 
 
 ### Setup
