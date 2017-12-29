@@ -4,10 +4,6 @@ var TodoService = require('../services/todos.service')
 _this = this
 
 exports.getTodos = async function(req, res, next){
-    
-    // Check the existence of the query parameters, If the param doesn't exists assign a default value
-    var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10; 
 
     try{
     
